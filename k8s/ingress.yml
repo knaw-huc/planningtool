@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    ingress.kubernetes.io/ssl-redirect: "true"
+    ingress.kubernetes.io/redirect-permanent: "true"
+    kubernetes.io/ingress.class: traefik
+    kubernetes.io/tls-acme: "true"
+    traefik.ingress.kubernetes.io/auth-secret: planning-tool-pass
+    traefik.ingress.kubernetes.io/auth-type: basic
+  name: planningtool
+  namespace: stage
+spec:
+  rules:
+  - host: planning.jauco.playground.di.huc.knaw.nl
+    http:
+      paths:
+      - backend:
+          serviceName: planningtool
+          servicePort: 80
+  tls:
+  - hosts:
+    - planning.jauco.playground.di.huc.knaw.nl
+    secretName: tls-planning-clariah-nl

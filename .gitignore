@@ -1,0 +1,13 @@
+.vscode
+node_modules
+
+out
+dist/calculate.js
+dist/calculate.js.map
+
+patches.json
+data.json
+
+*.xlsx
+
+yarn-error.log

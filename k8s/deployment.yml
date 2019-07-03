@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: planningtool
+  name: planningtool
+  namespace: stage
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: planningtool
+  name: planningtool
+  namespace: stage
+spec:
+  selector:
+    matchLabels:
+      app: planningtool
+  template:
+    metadata:
+      labels:
+        app: planningtool
+    spec:
+      containers:
+      - env:
+        - name: HTTP_PORT
+          value: "80"
+        - name: DATA_DIR
+          value: "/data"
+        image: knawhuc/planning:0.5
+        imagePullPolicy: IfNotPresent
+        name: planningtool
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /data
+          name: data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: planningtool

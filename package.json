@@ -1,0 +1,31 @@
+{
+  "dependencies": {
+    "socket.io": "^2.2.0"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "quoteProps": "preserve",
+    "trailingComma": "all",
+    "endOfLine": "lf"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.8",
+    "@types/react": "^16.8.19",
+    "@types/react-beautiful-dnd": "^11.0.2",
+    "@types/react-dom": "^16.8.4",
+    "@types/socket.io": "^2.1.2",
+    "@types/socket.io-client": "^1.4.32",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "typescript": "^3.4.5",
+    "webpack": "^4.34.0",
+    "webpack-cli": "^3.3.4"
+  },
+  "scripts": {
+    "start": "node out/js-unbundled/server/index.js",
+    "watch": "./node_modules/.bin/tsc -w",
+    "joinwatch": "~/.cargo/bin/px -w -E out/js-unbundled/eventHandler.js dist/calculate.js",
+    "build": "tsc && webpack out/js-unbundled/eventHandler.js --output=dist/calculate.js",
+    "docker": "read -p 'what tag?' TAG && docker build -t knawhuc/planning:$TAG . && docker push knawhuc/planning:$TAG"
+  }
+}

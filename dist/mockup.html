@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="/socket.io/socket.io.js"></script>
+    <title>Planning</title>
+    <!-- <link rel="stylesheet" href="./normalize.css"> -->
+    <style>
+      input[type=number]::-webkit-outer-spin-button,
+      input[type=number]::-webkit-inner-spin-button {
+          /* display: none; <- Crashes Chrome on hover */
+          -webkit-appearance: none;
+          margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+      }
+
+      input[type=number] {
+          width: 100%;
+          border: none;
+          -moz-appearance:textfield; /* Firefox */
+      }
+
+      table.styled {
+        border-spacing: 0;
+        border-right: thin black solid;
+      }
+      table.styled thead {
+        position: sticky;
+        top: 0
+      }
+      table.styled td, table.styled th {
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+      .caption {
+        border: thin black solid;
+        border-right: none
+      }
+
+      .spacer {
+        border-top: thin black solid;
+        height: 15px
+      }
+
+      .odd {
+        background-color: aliceblue
+      }
+      .even {
+        background-color: white
+      }
+
+      .projectSummary {
+        color: gray;
+      }
+
+      .tabList {
+        display: flex;
+        border-bottom: thin gray solid
+      }
+
+      .tab {
+        cursor: pointer;
+        padding: 5px 30px;
+        color: rgb(43, 44, 44);
+        border-bottom: 2px transparent solid 
+      }
+
+      .tab.active {
+        border-bottom-color: lightblue
+      }
+
+      .tab a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      #planning {
+        height: 100vh;
+        padding: 1em;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column
+      }
+      .tabContent {
+        overflow: hidden;
+      }
+
+      .scrollColumns {
+        display: flex;
+        height: 100%
+      }
+
+      .scrollColumns > * {
+        padding: 1rem;
+      }
+      .left {
+        width: 22rem;
+        flex-shrink: 0;
+        overflow-y: scroll
+      }
+      .right {
+        overflow: scroll
+      }
+      .projBox {
+        padding-left: 1em;
+      }
+      .left h1 {
+        font-size: 1rem;
+      }
+      .left .daterange {
+        font-size: 0.5rem;
+      }
+      body {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        padding: 0;
+        margin: 0;
+      }
+      ul.deliverables {
+        padding-left: 1rem;
+      }
+      li.checkbox {
+        list-style: none;
+      }
+      li.done {
+        text-decoration-line: line-through;
+        color: darkgray;
+      }
+      .invalid {
+        background-color: pink;
+      }
+      .unavailable {
+        background-color: lightgrey
+      }
+      .capacityPlanning {
+        border-collapse: collapse;
+      }
+      .capacityPlanning td, .capacityPlanning th {
+        border: thin black solid
+      }
+      .projectLabel {
+        color: gray
+      }
+      .teamLabel {
+        margin-left: 1em;
+        border: thin black solid;
+        border-radius: 6px;
+        padding: 2px;
+        font-size: xx-small;
+      }
+      .teamCol {
+        width: 1.5rem;
+      }
+      .hardcoded {
+       background-color: #d2eaff;
+      }
+
+      .connectionMessage.connected {
+        display: none
+      }
+
+      .connectionMessage.disconnected {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #fbb2b2;
+        border: 3px #aa0303 solid;
+        border-radius: 6px;
+        padding: 1em;
+      }
+      .scrollContainer {
+        height: 100%;
+        overflow: scroll;
+      }
+      .toPlan {
+        background: #fbb2b2;
+        color: #aa0303;
+      }
+      .projBox .projectLabel {
+        padding-left: 0.5rem;
+        font-size: xx-small;
+      }
+      .teamCol, .deliverableTotal {
+        width: 2.5rem;
+      }
+    </style>
+  </head>
+  <body style="font-size: 0.8em; width: 100%">
+    <div id="planning"></div>
+    <script>
+      window.process = {
+        env: {
+          NODE_ENV: "development"
+        }
+      }
+    </script>
+    <script src="./calculate.js"></script>
+</body>
+</html>
